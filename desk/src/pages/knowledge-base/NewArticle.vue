@@ -74,9 +74,9 @@ import { ref, computed } from "vue";
 import {
   usePageMeta,
   TextEditor,
+  TextEditorFixedMenu,
   Breadcrumbs,
 } from "frappe-ui";
-import { EditorFixedMenu as TextEditorFixedMenu } from "frappe-ui/editor";
 import { useRouter, useRoute } from "vue-router";
 import { newArticle } from "@/stores/knowledgeBase";
 import { useUserStore } from "@/stores/user";

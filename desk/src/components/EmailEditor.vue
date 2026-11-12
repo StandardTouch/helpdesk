@@ -148,9 +148,9 @@ import { useStorage } from "@vueuse/core";
 import {
   FileUploader,
   TextEditor,
+  TextEditorFixedMenu,
   createResource,
 } from "frappe-ui";
-import { EditorFixedMenu as TextEditorFixedMenu } from "frappe-ui/editor";
 import {
   createToast,
   validateEmail,

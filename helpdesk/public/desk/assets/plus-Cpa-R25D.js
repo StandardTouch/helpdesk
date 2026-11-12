@@ -1,1 +1,0 @@
-import{af as o,a as n,b as t,e as r}from"./index-z8Gru4JE.js";const s={viewBox:"0 0 24 24",width:"1.2em",height:"1.2em"};function a(i,e){return n(),t("svg",s,[...e[0]||(e[0]=[r("path",{fill:"none",stroke:"currentColor","stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",d:"M5 12h14m-7-7v14"},null,-1)])])}const c=o({name:"lucide-plus",render:a});export{c as _};

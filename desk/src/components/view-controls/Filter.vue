@@ -162,8 +162,9 @@ import {
   DatePicker,
   DateTimePicker,
   DateRangePicker,
+  NestedPopover,
 } from "frappe-ui";
-import { AutocompleteNew, Link, StarRating, NestedPopover } from "@/components";
+import { AutocompleteNew, Link, StarRating } from "@/components";
 import { useScreenSize } from "@/composables/screen";
 import FilterIcon from "@/components/icons/FilterIcon.vue";
 

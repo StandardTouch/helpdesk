@@ -98,11 +98,11 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
 import {
+  TextEditorFixedMenu,
   TextEditor,
   FileUploader,
   createResource,
 } from "frappe-ui";
-import { EditorFixedMenu as TextEditorFixedMenu } from "frappe-ui/editor";
 
 import { AttachmentIcon } from "@/components/icons/";
 import { AttachmentItem } from "@/components/";

@@ -118,10 +118,10 @@ import {
   createResource,
   Avatar,
   TextEditor,
+  TextEditorFixedMenu,
   Dropdown,
   Button,
 } from "frappe-ui";
-import { EditorFixedMenu as TextEditorFixedMenu } from "frappe-ui/editor";
 import { useRouter, useRoute } from "vue-router";
 import { dayjs } from "@/dayjs";
 import {

@@ -122,17 +122,15 @@ import {
 import { useRoute, useRouter } from "vue-router";
 import {
   createResource,
-  FeatherIcon,
-  Dropdown,
-} from "frappe-ui";
-import {
   ListView,
   ListFooter,
   ListRowItem,
   ListHeader,
   ListHeaderItem,
   ListSelectBanner,
-} from "frappe-ui/experimental";
+  FeatherIcon,
+  Dropdown,
+} from "frappe-ui";
 import {
   Filter,
   SortBy,

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&display=swap');
-@import "frappe-ui/style.css";
+@import 'frappe-ui/src/fonts/Inter/inter.css';
 
 @tailwind base;
 @tailwind components;
@@ -49,6 +49,16 @@ button.bg-surface-gray-7:active,
   background-color: #b81016 !important;
 }
 
+/* Text selections & links */
+::selection {
+  background-color: #ED1D24 !important;
+  color: #FFFFFF !important;
+}
+
+a:hover {
+  color: #ED1D24;
+}
+
 /* Focused inputs */
 input:focus,
 textarea:focus,
@@ -58,81 +68,25 @@ select:focus {
 }
 
 @layer components {
-  .prose-f {
-    @apply break-normal max-w-none prose prose-code:break-all prose-code:whitespace-pre-wrap prose-img:border prose-img:rounded-6 prose-sm;
-  }
-  .prose-f * {
-    unicode-bidi: plaintext;
-  }
-  .prose-f:not(.not-prose):not(.not-prose *) pre {
-    background-color: var(--surface-gray-2);
-    color: var(--ink-gray-9);
-  }
-  .prose-f.prose-v3 a {
-    text-decoration: none;
-  }
-}
-
-.tiptap [data-media-text-field] {
-  display: none !important;
-}
-
-/* Modern slim scrollbars */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--outline-gray-3) transparent;
-}
-
-*::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--outline-gray-3);
-  border-radius: 9999px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background-color: var(--outline-gray-4);
-}
-
-.replied-content .collapse {
-  margin: 10px 0 10px 0;
-  visibility: visible;
-  cursor: pointer;
-  display: flex;
-  font-weight: 700;
-  height: 12px;
-  line-height: 0.3;
-  background: #e8eaed;
-  width: 23px;
-  justify-content: center;
-  border-radius: 5px;
-}
-.replied-content .collapse:hover {
-  background: #dadce0;
-}
-.replied-content .collapse + input {
-  display: none;
-}
-.replied-content .collapse + input + div {
-  display: none;
-}
-.replied-content .collapse + input:checked + div {
-  display: block;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+	.prose-f {
+		@apply
+		break-normal
+		max-w-none
+		prose
+		prose-code:break-all
+		prose-code:whitespace-pre-wrap
+		prose-img:border
+		prose-img:rounded-lg
+		prose-sm
+		prose-table:table-fixed
+		prose-td:border
+		prose-td:border-gray-300
+		prose-td:p-2
+		prose-td:relative
+		prose-th:bg-gray-100
+		prose-th:border
+		prose-th:border-gray-300
+		prose-th:p-2
+		prose-th:relative
+	}
 }

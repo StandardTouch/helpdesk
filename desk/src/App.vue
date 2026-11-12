@@ -1,13 +1,13 @@
 <template>
-  <ToastProvider />
   <RouterView class="antialiased" />
+  <Toasts />
   <KeymapDialog />
   <Dialogs />
 </template>
 
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
-import { ToastProvider } from "frappe-ui";
+import { Toasts } from "frappe-ui";
 import { createToast } from "@/utils";
 import { useConfigStore } from "@/stores/config";
 import KeymapDialog from "@/pages/KeymapDialog.vue";

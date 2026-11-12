@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { reactive } from "vue";
-import { TextInput as Input, Dialog, createResource } from "frappe-ui";
+import { Input, Dialog, createResource } from "frappe-ui";
 import { createToast } from "@/utils";
 
 const emit = defineEmits(["customerCreated"]);

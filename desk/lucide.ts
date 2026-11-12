@@ -37,9 +37,14 @@ export default icons;
 
 function camelToDash(key: string) {
   // barChart2 -> bar-chart-2
-  const withNumber = key.replace(/[A-Z0-9]/g, (m) => "-" + m.toLowerCase());
+  // (PascalCase keys from newer lucide-static, e.g. TriangleAlert, must not get a leading dash)
+  const withNumber = key
+    .replace(/[A-Z0-9]/g, (m) => "-" + m.toLowerCase())
+    .replace(/^-/, "");
   // barChart2 -> bar-chart2
-  const withoutNumber = key.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase());
+  const withoutNumber = key
+    .replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())
+    .replace(/^-/, "");
 
   if (withNumber !== withoutNumber) {
     // both are required because unplugin icon resolver doesn't put a dash before numbers

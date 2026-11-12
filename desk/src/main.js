@@ -10,7 +10,7 @@ import {
   ErrorMessage,
   FeatherIcon,
   FormControl,
-  TextInput as Input,
+  Input,
   Tooltip,
   TextInput,
 } from "frappe-ui";
@@ -29,7 +29,7 @@ const globalComponents = {
   ErrorMessage,
   FeatherIcon,
   FormControl,
-  Input: TextInput,
+  Input,
   Tooltip,
   TextInput,
 };

@@ -75,10 +75,10 @@ import {
   Avatar,
   Dialog,
   FileUploader,
+  Autocomplete,
   createListResource,
   call,
 } from "frappe-ui";
-import { Autocomplete } from "@/components";
 import zod from "zod";
 import { createToast } from "@/utils";
 

@@ -1,0 +1,2 @@
+import{$ as i}from"./index-07d29805.js";function a(e){function s(t){return t.messages?t.messages.join(", "):t.message?t.message:""}function r(t){return e!=null&&e.title?e==null?void 0:e.title:s(t)}return function(t){i({title:r(t),message:e!=null&&e.title?void 0:s(t),icon:(e==null?void 0:e.icon)??"x",iconClasses:(e==null?void 0:e.iconClass)??"text-red-500"})}}export{a as u};
+//# sourceMappingURL=error-f80bbfaa.js.map

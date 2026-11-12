@@ -51,13 +51,13 @@ import { ref, computed } from "vue";
 import { useContactStore } from "@/stores/contact";
 
 import {
-  TextInput as Input,
+  Input,
   Dialog,
   ErrorMessage,
   createResource,
+  Autocomplete,
   createListResource,
 } from "frappe-ui";
-import { Autocomplete } from "@/components";
 import zod from "zod";
 
 import { createToast } from "@/utils";
