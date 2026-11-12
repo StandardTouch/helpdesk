@@ -25,6 +25,9 @@ export const useAuthStore = defineStore("auth", () => {
   );
   const isAdmin: ComputedRef<boolean> = computed(() => user__.value.is_admin);
   const isAgent: ComputedRef<boolean> = computed(() => user__.value.is_agent);
+  const isEmployee: ComputedRef<boolean> = computed(
+    () => user__.value.is_employee
+  );
   const isManager: ComputedRef<boolean> = computed(
     () => user__.value.is_manager
   );
@@ -74,6 +77,7 @@ export const useAuthStore = defineStore("auth", () => {
     init,
     isAdmin,
     isAgent,
+    isEmployee,
     isManager,
     isLoggedIn,
     login,

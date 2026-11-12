@@ -12,6 +12,7 @@ def get_user():
             "has_desk_access": False,
             "is_admin": False,
             "is_agent": False,
+            "is_employee": False,
             "has_agent_record": False,
             "user_id": "Guest",
             "is_manager": False,
@@ -81,6 +82,7 @@ def get_user():
         "has_desk_access": has_desk_access,
         "is_admin": is_admin,
         "is_agent": is_agent,
+        "is_employee": "Employee" in roles,
         "has_agent_record": has_agent_record,
         "user_id": user_id,
         "is_manager": is_manager,
@@ -99,18 +101,20 @@ def get_user():
 
 @frappe.whitelist(allow_guest=True)
 def get_post_login_redirect():
+    """
+    Where to send a user after a successful login:
+    - users with the Employee role -> Frappe desk (/app)
+    - agents (Agent / Agent Manager) -> helpdesk ticket list
+    - everyone else (helpdesk-only / customer users) -> their tickets
+    """
     current_user = frappe.session.user
     if current_user == "Guest":
         return "/helpdesk/login"
 
-    user_type = frappe.db.get_value("User", current_user, "user_type")
-    roles = set(frappe.get_roles(current_user))
-    portal_roles = {"Helpdesk User", "Helpdesk Contact", "Customer", "All", "Guest", "HD Customer", "HD Customer Manager"}
-    non_portal_roles = roles - portal_roles
+    if "Employee" in frappe.get_roles(current_user):
+        return "/app"
 
-    if user_type != "System User" and current_user != "Administrator" and not non_portal_roles:
-        return "/helpdesk/my-tickets"
-    elif non_portal_roles or user_type == "System User" or current_user == "Administrator":
+    if _is_agent():
         return "/helpdesk/tickets"
 
     return "/helpdesk/my-tickets"

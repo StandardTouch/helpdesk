@@ -1,2 +1,0 @@
-import{b as c,B as o,D as r,g as d,E as t,a6 as b}from"./index-07d29805.js";import{a as m}from"./more-horizontal-faac8e31.js";const B={__name:"Pill",props:{label:{type:String,default:"Button",require:!0},disabled:{type:Boolean,default:!1}},emits:["click"],setup(e,{emit:i}){const s=i,n=a=>{s("click",a)};return(a,l)=>(c(),o(t(b),{key:e.label,theme:"gray",variant:"outline",label:e.label,disabled:e.disabled},{suffix:r(()=>[d(t(m),{class:"h-3 w-3",onClick:l[0]||(l[0]=u=>n(e.label))})]),_:1},8,["label","disabled"]))}};export{B as _};
-//# sourceMappingURL=Pill-d39c8430.js.map

@@ -250,6 +250,10 @@ router.beforeEach(async (to, _, next) => {
     to.path === "/forgot-password"
   ) {
     if (authStore.isLoggedIn) {
+      if (authStore.isEmployee) {
+        window.location.href = "/app";
+        return;
+      }
       if (authStore.hasDeskAccess || authStore.isAgent || authStore.isAdmin) {
         next({ name: AGENT_PORTAL_LANDING });
         return;
@@ -267,6 +271,10 @@ router.beforeEach(async (to, _, next) => {
     authStore.isLoggedIn &&
     (to.path === "/" || to.path === "" || to.name === "CustomerRoot")
   ) {
+    if (authStore.isEmployee) {
+      window.location.href = "/app";
+      return;
+    }
     if (authStore.hasDeskAccess || authStore.isAgent || authStore.isAdmin) {
       next({ name: AGENT_PORTAL_LANDING });
       return;

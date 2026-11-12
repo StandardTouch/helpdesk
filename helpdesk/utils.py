@@ -52,6 +52,36 @@ def is_agent(user: str = None) -> bool:
     )
 
 
+def get_agent_name(user: str = None) -> str | None:
+    """
+    Get the HD Agent name for `user` (the HD Agent's name is the user).
+
+    :param user: User to check against, defaults to current user
+    :return: HD Agent name, or None if `user` has no agent record
+    """
+    user = user or frappe.session.user
+    return user if frappe.db.exists("HD Agent", user) else None
+
+
+def get_agents_team(user: str = None):
+    """Teams (enabled) the user belongs to. Defaults to the session user."""
+    user = user or frappe.session.user
+    Team = frappe.qb.DocType("HD Team")
+    TeamMember = frappe.qb.DocType("HD Team Member")
+
+    query = (
+        frappe.qb.from_(TeamMember)
+        .join(Team)
+        .on(Team.name == TeamMember.parent)
+        .where(TeamMember.user == user)
+        .select(Team.team_name, Team.ignore_restrictions)
+    )
+    # `disabled` only exists on newer HD Team versions
+    if frappe.get_meta("HD Team").has_field("disabled"):
+        query = query.where(Team.disabled == 0)
+    return query.run(as_dict=True)
+
+
 def publish_event(event: str, data: dict, user: str = None):
     """
     Publish `event` to a room with `data`
