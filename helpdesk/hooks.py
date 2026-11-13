@@ -23,6 +23,7 @@ get_site_info = "helpdesk.activation.get_site_info"
 
 after_install = "helpdesk.setup.install.after_install"
 after_migrate = [
+    "helpdesk.setup.install.ensure_customer_roles_have_no_desk_access",
     "helpdesk.search.build_index_in_background",
     "helpdesk.search.download_corpus",
 ]
@@ -53,6 +54,12 @@ website_route_rules = [
     },
 ]
 
+# Unauthenticated visitors land on the helpdesk signup / login page
+website_redirects = [
+    {"source": r"/signup", "target": "/helpdesk/signup"},
+    {"source": r"/frappe/signup", "target": "/helpdesk/signup"},
+]
+
 user_invitation = {
     "allowed_roles": {
         "Agent Manager": [
@@ -74,6 +81,9 @@ user_invitation = {
 }
 
 doc_events = {
+    "User": {
+        "after_insert": "helpdesk.api.account.on_user_insert",
+    },
     "Assignment Rule": {
         "on_trash": "helpdesk.extends.assignment_rule.on_assignment_rule_trash",
         "validate": "helpdesk.extends.assignment_rule.on_assignment_rule_validate",

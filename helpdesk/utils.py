@@ -57,6 +57,32 @@ def is_agent(user: str | None = None) -> bool:
     return "Agent Manager" in roles or "Agent" in roles
 
 
+DESK_ROLES = {"Administrator", "System Manager", "Employee"}
+
+
+def is_desk_user(user: str | None = None) -> bool:
+    """
+    Check whether `user` belongs in the Frappe desk (`/app`) rather than the
+    helpdesk portal: Administrator, System Managers and Employees.
+    """
+    user = user or frappe.session.user
+    if user == "Guest":
+        return False
+    return user == "Administrator" or bool(DESK_ROLES & set(frappe.get_roles(user)))
+
+
+def get_post_login_path(user: str | None = None) -> str:
+    """Where `user` should land after logging in or signing up."""
+    user = user or frappe.session.user
+    if user == "Guest":
+        return "/helpdesk/login"
+    if is_desk_user(user):
+        return "/app"
+    if is_agent(user):
+        return "/helpdesk/tickets"
+    return "/helpdesk/my-tickets"
+
+
 def get_agent_name(user: str = None) -> str | None:
     """
     Get the HD Agent name for `user`

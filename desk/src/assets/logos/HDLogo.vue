@@ -1,18 +1,27 @@
 <template>
   <svg
-    width="118"
-    height="118"
-    viewBox="0 0 118 118"
+    viewBox="0 0 40 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path
-      d="M93.9278 0H23.1013C10.3428 0 0 10.3428 0 23.1013V93.9278C0 106.686 10.3428 117.029 23.1013 117.029H93.9278C106.686 117.029 117.029 106.686 117.029 93.9278V23.1013C117.029 10.3428 106.686 0 93.9278 0Z"
-      fill="#7D42FB"
-    />
-    <path
-      d="M95.9759 50.8753V27.8265L21 27.8265V38.3271H85.5278V48.3027C81.3275 49.5103 78.2824 53.3955 78.2824 57.9632C78.2824 62.531 81.3275 66.3637 85.5278 67.5713V77.5468H31.5006V50.1403H21V88.0474H96.0284V64.9986L89.7805 60.5359V55.3906L96.0284 50.9278L95.9759 50.8753Z"
-      fill="#EDF7FF"
-    />
+    <rect width="40" height="40" rx="9" fill="#000000" />
+    <text
+      x="7"
+      y="27"
+      font-family="'Poppins', sans-serif"
+      font-size="20"
+      font-weight="900"
+      fill="#ED1D24"
+    >S</text>
+    <text
+      x="19"
+      y="27"
+      font-family="'Poppins', sans-serif"
+      font-size="20"
+      font-weight="900"
+      fill="#FFFFFF"
+    >T</text>
+    <circle cx="31.5" cy="14" r="2.5" fill="#ED1D24" />
+    <circle cx="31.5" cy="14" r="1.2" fill="#00C8FF" />
   </svg>
 </template>

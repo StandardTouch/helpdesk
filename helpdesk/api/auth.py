@@ -1,12 +1,21 @@
 import frappe
 
-from helpdesk.utils import agent_only, get_agent_name, get_agents_team
+from helpdesk.utils import (
+    agent_only,
+    get_agent_name,
+    get_agents_team,
+    get_post_login_path,
+    is_desk_user,
+)
 from helpdesk.utils import is_agent as _is_agent
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_user():
     current_user = frappe.session.user
+    if current_user == "Guest":
+        return {"is_guest": True, "is_employee": False, "has_desk_access": False}
+
     filters = {"name": current_user}
     fields = [
         "first_name",
@@ -54,6 +63,7 @@ def get_user():
     user_team_names = [team["team_name"] for team in user_team]
 
     return {
+        "is_employee": is_desk_user(current_user),
         "has_desk_access": has_desk_access,
         "is_admin": is_admin,
         "is_agent": is_agent,
@@ -71,6 +81,11 @@ def get_user():
         "availability_changed_on": availability.get("availability_changed_on"),
         "availability_changed_by": availability.get("availability_changed_by"),
     }
+
+
+@frappe.whitelist(allow_guest=True)
+def get_post_login_redirect():
+    return get_post_login_path()
 
 
 @frappe.whitelist()

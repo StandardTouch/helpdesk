@@ -57,8 +57,8 @@ export default defineConfig(async ({ mode }) => {
         },
         manifest: {
           display: "standalone",
-          name: "Frappe Helpdesk",
-          short_name: "Helpdesk",
+          name: "StandardTouch Helpdesk",
+          short_name: "StandardTouch",
           start_url: "/helpdesk",
           description:
             "Modern, Streamlined, Free and Open Source Customer Service Software",

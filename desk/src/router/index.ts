@@ -5,7 +5,8 @@ import { isCustomerPortal } from "@/utils";
 import { createRouter, createWebHistory } from "vue-router";
 const { isMobileView } = useScreenSize();
 
-export const LOGIN_PAGE = "/login";
+export const LOGIN_PAGE = "/helpdesk/login";
+export const DESK_URL = "/app";
 
 // type the meta fields
 declare module "vue-router" {
@@ -201,7 +202,31 @@ const portalRoutes = [
   },
 ];
 
+const authRoutes = ["Signup", "Login", "ForgotPassword"];
+
 const routes = [
+  // Unauthenticated entry points (our StandardTouch signup / sign-in page)
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () => import("@/pages/Signup.vue"),
+    props: { defaultMode: "signup" },
+    meta: { public: true },
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/pages/Signup.vue"),
+    props: { defaultMode: "signin" },
+    meta: { public: true },
+  },
+  {
+    path: "/forgot-password",
+    name: "ForgotPassword",
+    component: () => import("@/pages/Signup.vue"),
+    props: { defaultMode: "forgot" },
+    meta: { public: true },
+  },
   {
     path: "/",
     component: () => import("@/roots/PortalRoot.vue"),
@@ -225,13 +250,24 @@ router.beforeEach(async (to, _, next) => {
     await authStore.init();
   }
 
-  if (!authStore.isLoggedIn) {
-    const redirectURL = to.fullPath !== "/" ? to.fullPath : "";
+  const isAuthPage = authRoutes.includes(to.name as string);
 
-    window.location.href =
-      LOGIN_PAGE +
-      (redirectURL ? `?redirect-to=/helpdesk${redirectURL}` : "/helpdesk");
-  } else if (to.name === "TicketAgent" && !authStore.isAgent) {
+  if (!authStore.isLoggedIn) {
+    // Not signed in: everything goes through the helpdesk signup / sign-in page
+    return isAuthPage ? next() : next({ name: "Signup" });
+  }
+
+  // Administrators, System Managers and Employees work in the desk
+  if (authStore.isEmployee) {
+    window.location.href = DESK_URL;
+    return;
+  }
+
+  if (isAuthPage) {
+    return next({ name: authStore.hasDeskAccess ? "TicketsAgent" : "TicketsCustomer" });
+  }
+
+  if (to.name === "TicketAgent" && !authStore.isAgent) {
     const ticketId = to.params.ticketId;
     next({
       name: "TicketCustomer",

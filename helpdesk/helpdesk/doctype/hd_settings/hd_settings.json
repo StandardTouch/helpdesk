@@ -49,6 +49,7 @@
   "column_break_yfbu",
   "ticket_reopen_status",
   "workflow_tab",
+  "support_email_account",
   "skip_email_workflow",
   "instantly_send_email",
   "column_break_aomm",
@@ -187,6 +188,13 @@
    "fieldname": "workflow_tab",
    "fieldtype": "Tab Break",
    "label": "Workflow"
+  },
+  {
+   "description": "Select the Email Account used for Helpdesk outgoing communications and notifications.",
+   "fieldname": "support_email_account",
+   "fieldtype": "Link",
+   "label": "Support Email Account",
+   "options": "Email Account"
   },
   {
    "default": "0",

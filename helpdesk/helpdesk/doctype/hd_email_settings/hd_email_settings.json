@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "creation": "2026-10-13 16:40:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "email_account_section",
+  "email_account",
+  "email_id",
+  "column_break_1",
+  "send_ticket_acknowledgement",
+  "section_break_auto_reply",
+  "acknowledgement_subject"
+ ],
+ "fields": [
+  {
+   "fieldname": "email_account_section",
+   "fieldtype": "Section Break",
+   "label": "Helpdesk Email Account"
+  },
+  {
+   "description": "Select the Email Account used for Helpdesk outgoing communications and notifications.",
+   "fieldname": "email_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Email Account",
+   "options": "Email Account",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "email_account.email_id",
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Email Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "When enabled, an automatic confirmation email will be sent to the client upon ticket creation.",
+   "fieldname": "send_ticket_acknowledgement",
+   "fieldtype": "Check",
+   "label": "Send Ticket Creation Auto-Reply"
+  },
+  {
+   "depends_on": "send_ticket_acknowledgement",
+   "fieldname": "section_break_auto_reply",
+   "fieldtype": "Section Break",
+   "label": "Auto-Reply Settings"
+  },
+  {
+   "default": "We received your ticket: [#{name}] {subject}",
+   "depends_on": "send_ticket_acknowledgement",
+   "description": "Subject line for the ticket creation auto-reply email.",
+   "fieldname": "acknowledgement_subject",
+   "fieldtype": "Data",
+   "label": "Auto-Reply Subject"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-10-13 16:40:00.000000",
+ "modified_by": "Administrator",
+ "module": "Helpdesk",
+ "name": "HD Email Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Agent Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Agent"
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

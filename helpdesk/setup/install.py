@@ -229,6 +229,12 @@ def setup_customer_role(fresh_install=True):
         set_portal_defaults(overwrite=True)
 
 
+def ensure_customer_roles_have_no_desk_access():
+    for role in ("HD Customer", "HD Customer Manager"):
+        if frappe.db.get_value("Role", role, "desk_access"):
+            frappe.db.set_value("Role", role, "desk_access", 0)
+
+
 def set_portal_defaults(overwrite=False):
     """Point the portal at helpdesk. Installing claims the settings outright;
     the upgrade patch only fills what a site left empty.

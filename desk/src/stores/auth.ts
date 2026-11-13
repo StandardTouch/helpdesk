@@ -25,6 +25,10 @@ export const useAuthStore = defineStore("auth", () => {
   const hasDeskAccess: ComputedRef<boolean> = computed(
     () => user__.value.has_desk_access
   );
+  // Administrator / System Manager / Employee: belongs in the desk, not here
+  const isEmployee: ComputedRef<boolean> = computed(
+    () => !!user__.value.is_employee
+  );
   const isAdmin: ComputedRef<boolean> = computed(() => user__.value.is_admin);
   const isAgent: ComputedRef<boolean> = computed(() => user__.value.is_agent);
   const hasAgentRecord: ComputedRef<boolean> = computed(
@@ -82,6 +86,7 @@ export const useAuthStore = defineStore("auth", () => {
     hasDeskAccess,
     init,
     isAdmin,
+    isEmployee,
     isAgent,
     hasAgentRecord,
     isManager,
