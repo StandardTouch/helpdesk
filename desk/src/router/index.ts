@@ -257,13 +257,15 @@ router.beforeEach(async (to, _, next) => {
     return isAuthPage ? next() : next({ name: "Signup" });
   }
 
-  // Administrators, System Managers and Employees work in the desk
-  if (authStore.isEmployee) {
-    window.location.href = DESK_URL;
-    return;
-  }
-
   if (isAuthPage) {
+    // Already signed in and opened the login/signup page: Administrators,
+    // System Managers and Employees belong in the desk. Opening /helpdesk
+    // deliberately (e.g. from the apps screen) is left alone so they can
+    // still use the helpdesk agent view.
+    if (authStore.isEmployee) {
+      window.location.href = DESK_URL;
+      return;
+    }
     return next({ name: authStore.hasDeskAccess ? "TicketsAgent" : "TicketsCustomer" });
   }
 
