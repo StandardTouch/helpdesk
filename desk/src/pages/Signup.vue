@@ -461,7 +461,7 @@
             </svg>
             <span>StandardTouch Secure Encryption</span>
           </div>
-          <a href="/login?redirect-to=/app" class="text-[11px] text-[#818285] hover:text-[#ED1D24] underline">
+          <a href="/login?classic=1&redirect-to=/app" class="text-[11px] text-[#818285] hover:text-[#ED1D24] underline">
             Staff / Desk Login &rarr;
           </a>
         </div>

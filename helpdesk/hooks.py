@@ -58,6 +58,12 @@ website_route_rules = [
 website_redirects = [
     {"source": r"/signup", "target": "/helpdesk/signup"},
     {"source": r"/frappe/signup", "target": "/helpdesk/signup"},
+    # Default login is the helpdesk page; /login?classic=1 keeps the stock desk login as a fallback
+    {
+        "source": r"/login(?!\?.*classic=1)(\?.*)?",
+        "target": "/helpdesk/login",
+        "match_with_query_string": True,
+    },
 ]
 
 user_invitation = {
