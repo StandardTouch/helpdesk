@@ -1373,7 +1373,36 @@ def has_permission(doc, user=None):
         return True
     if not is_agent(user):
         return False
+    if not _department_allows(doc, user):
+        return False
     return _agent_has_permission(doc, user)
+
+
+def _agent_departments(user: str) -> list[str]:
+    """Departments an agent is limited to. Empty means no limit."""
+    return frappe.get_all(
+        "HD Agent Department",
+        filters={"parent": user, "parenttype": "HD Agent"},
+        pluck="department",
+    )
+
+
+def _department_allows(doc, user: str) -> bool:
+    departments = _agent_departments(user)
+    department = doc.get("client_department")
+    return not departments or not department or department in departments
+
+
+def _department_clause(user: str) -> str | None:
+    """WHERE fragment limiting a department-restricted agent; tickets with no department stay visible."""
+    departments = _agent_departments(user)
+    if not departments or not frappe.get_meta("HD Ticket").has_field("client_department"):
+        return None
+    return (
+        "(`tabHD Ticket`.client_department IN ({d})"
+        " OR `tabHD Ticket`.client_department IS NULL"
+        " OR `tabHD Ticket`.client_department = '')"
+    ).format(d=", ".join(frappe.db.escape(d) for d in departments))
 
 
 def _is_customer_manager(customer: str, user: str) -> bool:
@@ -1418,7 +1447,13 @@ def permission_query(user: str | None = None):
         return
     if not is_agent(user):
         return _customer_query(user)
-    return _agent_query(user)
+    query = _agent_query(user)
+    department = _department_clause(user)
+    if not department:
+        return query
+    base = _get_base_visibility(user)
+    # restrictions disabled: `query` is None and every ticket is otherwise visible
+    return f"({base}) OR ({f'({query}) AND ' if query else ''}{department})"
 
 
 def _customer_query(user: str) -> str:

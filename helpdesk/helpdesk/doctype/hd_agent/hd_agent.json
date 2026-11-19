@@ -12,7 +12,9 @@
   "is_active",
   "availability",
   "availability_changed_on",
-  "availability_changed_by"
+  "availability_changed_by",
+  "department_access_section",
+  "departments"
  ],
  "fields": [
   {
@@ -60,11 +62,23 @@
    "label": "Availability Changed By",
    "options": "User",
    "read_only": 1
+  },
+  {
+   "fieldname": "department_access_section",
+   "fieldtype": "Section Break",
+   "label": "Department Access"
+  },
+  {
+   "fieldname": "departments",
+   "fieldtype": "Table",
+   "label": "Departments",
+   "options": "HD Agent Department",
+   "description": "Limit this agent to tickets of these departments (plus tickets with no department). Leave empty for no limit."
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-28 12:00:00.000000",
+ "modified": "2026-11-19 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Helpdesk",
  "name": "HD Agent",
