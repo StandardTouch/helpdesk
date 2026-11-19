@@ -103,6 +103,7 @@ class HDTicket(Document, CustomerEditController):
         self.validate_portal_contact()
         self.set_contact()
         self.set_customer()
+        self.set_department()
 
     def validate(self):
         self.validate_feedback()
@@ -362,6 +363,19 @@ class HDTicket(Document, CustomerEditController):
                     ).format(self.contact),
                     frappe.ValidationError,
                 )
+
+    def set_department(self):
+        # Customers always get their contact's department; agents may override it
+        if not self.is_new() or not self.meta.has_field("client_department"):
+            return
+        contact_department = (
+            frappe.db.get_value("Contact", self.contact, "client_department")
+            if self.contact
+            else None
+        )
+        if is_agent() and self.client_department:
+            return
+        self.client_department = contact_department
 
     def set_priority(self):
         if self.priority:

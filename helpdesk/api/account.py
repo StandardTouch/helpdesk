@@ -16,7 +16,9 @@ COMMON_EMAIL_DOMAINS = {
 
 
 @frappe.whitelist(allow_guest=True)
-def register_portal_user(full_name, email, password, company_name=None):
+def register_portal_user(
+    full_name, email, password, company_name=None, department=None
+):
     """Self-service signup for the customer portal.
 
     Creates a Website User with only the `HD Customer` role, a linked Contact
@@ -39,6 +41,12 @@ def register_portal_user(full_name, email, password, company_name=None):
     first_name = parts[0]
     last_name = parts[1] if len(parts) > 1 else ""
     company_name = (company_name or "").strip()
+    department = (department or "").strip()
+    if frappe.get_meta("Contact").has_field("client_department"):
+        if not department:
+            frappe.throw(_("Department is required"))
+        if not frappe.db.exists("Department", {"name": department, "is_group": 0}):
+            frappe.throw(_("Please select a valid department"))
 
     previous_user = frappe.session.user
     frappe.set_user("Administrator")
@@ -80,7 +88,16 @@ def register_portal_user(full_name, email, password, company_name=None):
                 )
         if company_name:
             contact.company_name = company_name
+        if department:
+            contact.client_department = department
         contact.save(ignore_permissions=True)
+
+        # get_customers() resolves a contact's customers through this table
+        if company_name:
+            customer = frappe.get_doc("HD Customer", company_name)
+            if contact.name not in [m.contact_name for m in customer.get("contacts")]:
+                customer.append("contacts", {"contact_name": contact.name})
+                customer.save(ignore_permissions=True)
 
         frappe.set_user(user.name)
         LoginManager().login_as(user.name)
@@ -110,6 +127,35 @@ def _get_or_create_contact(user, first_name, last_name, company_name):
         contact.append("email_ids", {"email_id": user.email, "is_primary": 1})
     contact.user = user.name
     return contact
+
+
+@frappe.whitelist(allow_guest=True)
+def get_departments():
+    """Departments a client can pick at signup: [{value, label}]."""
+    if not frappe.db.exists("DocType", "Department"):
+        return []
+    return frappe.get_all(
+        "Department",
+        filters={"is_group": 0, "disabled": 0},
+        fields=["name as value", "department_name as label"],
+        order_by="department_name",
+        ignore_permissions=True,
+    )
+
+
+@frappe.whitelist()
+def get_my_customer_profile():
+    """Customer and department of the signed-in user's contact, to prefill the ticket form."""
+    contact = frappe.db.get_value("Contact", {"user": frappe.session.user})
+    if not contact:
+        return {}
+    from helpdesk.utils import get_customers
+
+    customers = get_customers(contact=contact)
+    return {
+        "customer": customers[0] if len(customers) == 1 else None,
+        "department": frappe.db.get_value("Contact", contact, "client_department"),
+    }
 
 
 @frappe.whitelist(allow_guest=True)

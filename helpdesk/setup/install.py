@@ -229,6 +229,24 @@ def setup_customer_role(fresh_install=True):
         set_portal_defaults(overwrite=True)
 
 
+def ensure_department_fields():
+    """Department (ERPNext) on Contact and HD Ticket; skipped when ERPNext is absent."""
+    if not frappe.db.exists("DocType", "Department"):
+        return
+    field = {
+        "fieldname": "client_department",
+        "label": "Client Department",
+        "fieldtype": "Link",
+        "options": "Department",
+    }
+    create_custom_fields(
+        {
+            "Contact": [{**field, "insert_after": "company_name"}],
+            "HD Ticket": [{**field, "insert_after": "customer", "in_standard_filter": 1}],
+        }
+    )
+
+
 def ensure_customer_roles_have_no_desk_access():
     for role in ("HD Customer", "HD Customer Manager"):
         if frappe.db.get_value("Role", role, "desk_access"):

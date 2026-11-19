@@ -153,6 +153,24 @@
             </div>
           </div>
 
+          <!-- Department -->
+          <div v-if="departments.length">
+            <label for="department" class="block text-[10px] font-bold text-black uppercase tracking-wider mb-0.5 font-heading">
+              Department <span class="text-[#ED1D24]">*</span>
+            </label>
+            <select
+              id="department"
+              v-model="form.department"
+              required
+              class="custom-input px-3 py-1 text-xs"
+            >
+              <option value="" disabled>Select your department</option>
+              <option v-for="d in departments" :key="d.value" :value="d.value">
+                {{ d.label }}
+              </option>
+            </select>
+          </div>
+
           <!-- Password -->
           <div>
             <label for="password" class="block text-[10px] font-bold text-black uppercase tracking-wider mb-0.5 font-heading">
@@ -524,6 +542,7 @@ const form = reactive({
   fullName: "",
   email: "",
   companyName: "",
+  department: "",
   password: "",
   agreeTerms: true,
 });
@@ -533,6 +552,15 @@ const signinForm = reactive({
   email: "",
   password: "",
   rememberMe: true,
+});
+
+const departments = ref<{ value: string; label: string }[]>([]);
+onMounted(async () => {
+  try {
+    departments.value = await call("helpdesk.api.account.get_departments");
+  } catch {
+    departments.value = [];
+  }
 });
 
 const showPassword = ref(false);
@@ -545,6 +573,7 @@ async function handleSignup() {
     !form.fullName.trim() ||
     !form.email.trim() ||
     !form.companyName.trim() ||
+    (departments.value.length && !form.department) ||
     !form.password.trim()
   ) {
     errorMessage.value = "Please fill in all required fields.";
@@ -567,6 +596,7 @@ async function handleSignup() {
       full_name: form.fullName.trim(),
       email: form.email.trim(),
       company_name: form.companyName.trim(),
+      department: form.department,
       password: form.password,
     });
 

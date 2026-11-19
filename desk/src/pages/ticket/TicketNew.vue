@@ -53,6 +53,20 @@
           </template>
         </UniInput>
       </div>
+      <!-- Customer and department come from the signed-in contact -->
+      <div
+        v-if="isCustomerPortal && (profile.data?.customer || profile.data?.department)"
+        class="flex gap-4 text-sm text-ink-gray-6"
+      >
+        <div v-if="profile.data?.customer" class="flex flex-1 flex-col gap-2">
+          <span>{{ __("Customer") }}</span>
+          <TextInput :modelValue="profile.data.customer" variant="outline" disabled />
+        </div>
+        <div v-if="profile.data?.department" class="flex flex-1 flex-col gap-2">
+          <span>{{ __("Department") }}</span>
+          <TextInput :modelValue="profile.data.department" variant="outline" disabled />
+        </div>
+      </div>
       <!-- existing fields -->
       <div
         class="flex flex-col"
@@ -213,6 +227,11 @@ const subject = ref(String(route.query.subject ?? ""));
 const description = ref("");
 const attachments = ref([]);
 const templateFields = reactive({});
+
+const profile = createResource({
+  url: "helpdesk.api.account.get_my_customer_profile",
+  auto: isCustomerPortal.value,
+});
 
 const template = createResource({
   url: "helpdesk.helpdesk.doctype.hd_ticket_template.api.get_one",

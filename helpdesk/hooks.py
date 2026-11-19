@@ -23,6 +23,7 @@ get_site_info = "helpdesk.activation.get_site_info"
 
 after_install = "helpdesk.setup.install.after_install"
 after_migrate = [
+    "helpdesk.setup.install.ensure_department_fields",
     "helpdesk.setup.install.ensure_customer_roles_have_no_desk_access",
     "helpdesk.search.build_index_in_background",
     "helpdesk.search.download_corpus",
